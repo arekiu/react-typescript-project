@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 type FormElement = React.FormEvent<HTMLFormElement>;
 interface ITask {
@@ -13,7 +14,7 @@ function App(): JSX.Element {
   const handleSubmit = (e: FormElement) => {
     e.preventDefault();
     addTask(newTask);
-    console.log(tasks);
+    setNewTask("");
   };
 
   const addTask = (name: string) => {
@@ -22,12 +23,34 @@ function App(): JSX.Element {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={(e) => setNewTask(e.target.value)} />
-        <button>Save</button>
-      </form>
-    </>
+    <div className="container p-4">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <div className="card">
+            <div className="card-body">
+              <form onSubmit={handleSubmit}>
+                <input
+                  className="form-control"
+                  type="text"
+                  onChange={(e) => setNewTask(e.target.value)}
+                  value={newTask}
+                  autoFocus
+                />
+                <div className="col text-center">
+                  <button className="btn btn-success btn-block mt-2 ">
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {tasks.map((task: ITask, i: number) => {
+            return <h1 key={i}>{task.name}</h1>;
+          })}
+        </div>
+      </div>
+    </div>
   );
 }
 
