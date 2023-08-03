@@ -22,6 +22,18 @@ function App(): JSX.Element {
     setTasks(newTasks);
   };
 
+  const toggleDoneTask = (i: number): void => {
+    const copyTasks: ITask[] = [...tasks];
+    copyTasks[i].done = !copyTasks[i].done;
+    setTasks(copyTasks);
+  };
+
+  const removeTask = (i: number): void => {
+    const updatedTasks: ITask[] = [...tasks];
+    updatedTasks.splice(i, 1);
+    setTasks(updatedTasks);
+  };
+
   return (
     <div className="container p-4">
       <div className="row">
@@ -45,9 +57,27 @@ function App(): JSX.Element {
             </div>
           </div>
 
-          {tasks.map((task: ITask, i: number) => {
-            return <h1 key={i}>{task.name}</h1>;
-          })}
+          {tasks.map((task: ITask, i: number) => (
+            <div key={i} className="card card-body mt-2">
+              <h2 style={{ textDecoration: task.done ? "line-through" : "" }}>
+                {task.name}
+              </h2>
+              <div>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => toggleDoneTask(i)}
+                >
+                  {task.done ? "✓" : "✗"}
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => removeTask(i)}
+                >
+                  🗑
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
